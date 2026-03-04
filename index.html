@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mikan Zlatkovich</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0C0B09;
+    --white: #E8E4DD;
+    --cream: #D5D0C8;
+    --smoke: #8A817A;
+    --ember: #A6785D;
+    --ash: #3D3832;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--ember);
+    color: var(--black);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--smoke);
+    text-decoration: none;
+    transition: color 0.4s;
+  }
+
+  .nav-name:hover { color: var(--white); }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--smoke);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center 30%;
+    filter: grayscale(0.7) contrast(1.05) brightness(0.9);
+    opacity: 0;
+    animation: slow-reveal 4s ease forwards;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg,
+      rgba(12,11,9,0.2) 0%,
+      rgba(12,11,9,0) 25%,
+      rgba(12,11,9,0.5) 60%,
+      rgba(12,11,9,1) 100%);
+  }
+
+  @keyframes slow-reveal { to { opacity: 1; } }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    opacity: 0;
+    animation: rise 1.4s 1.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero-location {
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-top: 20px;
+    opacity: 0;
+    animation: rise 1s 2.2s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 200px 48px;
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  .about p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+    font-weight: 300;
+    line-height: 2;
+    color: var(--white);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1.6s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .about p.in-view {
+    opacity: 0.85;
+    transform: translateY(0);
+  }
+
+  /* QUOTES */
+  .quotes {
+    padding: 80px 48px 160px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .quote-block {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .quote-block.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .quote-block blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.9;
+    color: var(--white);
+    opacity: 0.8;
+    margin-bottom: 32px;
+    padding-left: 24px;
+    border-left: 1px solid var(--ash);
+  }
+
+  .quote-author {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--smoke);
+    padding-left: 24px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--ash);
+    margin: 0 auto;
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .divider.in-view { opacity: 1; }
+
+  /* GALLERY */
+  .gallery {
+    padding: 80px 0 120px;
+  }
+
+  .gallery-track {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .gallery-row {
+    display: flex;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  .gallery-img {
+    flex: 1;
+    min-height: 320px;
+    overflow: hidden;
+    position: relative;
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 1.8s ease, transform 1.8s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .gallery-img.in-view {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.6) contrast(1.05);
+    transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .gallery-img:hover img {
+    filter: grayscale(0.15) contrast(1.02);
+    transform: scale(1.03);
+  }
+
+  /* LISTEN */
+  .listen {
+    padding: 120px 48px;
+    text-align: center;
+  }
+
+  .listen-links {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .listen-links.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .listen-link {
+    text-decoration: none;
+    color: var(--smoke);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.4s;
+    padding: 12px 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .listen-link:hover {
+    color: var(--white);
+    border-bottom-color: var(--ember);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 160px 48px;
+    text-align: center;
+    position: relative;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(180deg, transparent, var(--ash));
+  }
+
+  .contact h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--white);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: all 1.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .contact h2.in-view {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+
+  .contact-btn {
+    display: inline-block;
+    margin-top: 48px;
+    padding: 16px 48px;
+    border: 1px solid var(--ash);
+    color: var(--smoke);
+    text-decoration: none;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 1.2s 0.2s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .contact-btn.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .contact-btn:hover {
+    border-color: var(--smoke);
+    color: var(--white);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 36px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.03);
+  }
+
+  footer span {
+    font-size: 0.6rem;
+    color: var(--ash);
+    letter-spacing: 0.5px;
+  }
+
+  .social-row {
+    display: flex;
+    gap: 24px;
+  }
+
+  .social-row a {
+    color: var(--ash);
+    text-decoration: none;
+    font-size: 0.6rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+
+  .social-row a:hover { color: var(--smoke); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .quotes {
+      grid-template-columns: 1fr;
+      gap: 60px;
+      padding: 60px 48px 120px;
+    }
+    .gallery-row { flex-direction: column; }
+    .gallery-img { min-height: 260px; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { gap: 16px; }
+    .hero { padding: 0 24px 48px; }
+    .about { padding: 120px 24px; }
+    .quotes { padding: 40px 24px 80px; }
+    .listen { padding: 80px 24px; }
+    .contact { padding: 100px 24px; }
+    footer {
+      padding: 28px 24px;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+    .gallery-img { min-height: 220px; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-name">Mikan Zlatkovich</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#listen">Listen</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg" style="background-image: url('img/7f784f_33c5744cf8f4483a8f0d6cb0d88d68b3_mv2.avif')"></div>
+  <div class="hero-content">
+    <h1>A flaming<br>celebration<br>of <em>jazz</em></h1>
+    <div class="hero-location">San Diego, California</div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <p>
+    Mikan Zlatkovich has spent a lifetime at the piano — sharing stages with Tony Scott, Chet Baker, Clifford Jordan, Charles McPherson, and Louis Hayes. He has performed and recorded across the United States and Europe, carrying the fire of jazz wherever he goes. The Songbook, the blues, Bossa Nova — he plays it all with the same spirit: completely, and without reservation.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<section class="quotes">
+  <div class="quote-block">
+    <blockquote>
+      What I like most about him are his fire and spirit. He truly has a grasp of the essence of jazz piano.
+    </blockquote>
+    <div class="quote-author">Charles McPherson</div>
+  </div>
+  <div class="quote-block">
+    <blockquote>
+      His consummate command of the keyboard allows him to express musical emotions with inventive ease.
+    </blockquote>
+    <div class="quote-author">Chuck Perrin</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="gallery" id="gallery">
+  <div class="gallery-track">
+    <div class="gallery-row">
+      <div class="gallery-img">
+        <img src="img/7f784f_25d93b7e4c474b8d87f86874d0a44e96_mv2.avif" alt="Mikan live" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_295de9cacf6746ca87feb266d8848aa6_mv2.avif" alt="At the piano" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_7f17b3f3fc7d4f13a665498bdad61680_mv2.avif" alt="Performing" loading="lazy">
+      </div>
+    </div>
+    <div class="gallery-row">
+      <div class="gallery-img">
+        <img src="img/7f784f_f1224e90afb04c40babd48531ec3179b_mv2.avif" alt="On stage" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_508de35532fb40129db4b9a8c8bfa64e_mv2.avif" alt="Live performance" loading="lazy">
+      </div>
+    </div>
+    <div class="gallery-row">
+      <div class="gallery-img">
+        <img src="img/7f784f_8af9e3cd0b5f4a368eb073646d02e751_mv2.avif" alt="Mikan playing" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_b1f4521c02524e658b8e9e2c69d0b255_mv2.avif" alt="Performance" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_db6cd1b926c2423089d6f2aa4bcd9ab3_mv2.avif" alt="Jazz session" loading="lazy">
+      </div>
+    </div>
+    <div class="gallery-row">
+      <div class="gallery-img">
+        <img src="img/7f784f_8437981a28404d2883b610492a5708d5_mv2.avif" alt="Mikan in his element" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_3bbe62aeb94c44cd93c96df28fde25ef_mv2.avif" alt="Studio session" loading="lazy">
+      </div>
+    </div>
+    <div class="gallery-row">
+      <div class="gallery-img">
+        <img src="img/7f784f_8af42cf368f24b518d9d23cf9561c83d_mv2.avif" alt="Mikan BW" loading="lazy">
+      </div>
+      <div class="gallery-img">
+        <img src="img/7f784f_69dc9e0decd64bf186ac37c11796fbb8_mv2.avif" alt="Live jazz" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="listen" id="listen">
+  <div class="listen-links">
+    <a href="https://music.apple.com/us/album/come-together/364149462" target="_blank" class="listen-link">Apple Music</a>
+    <a href="https://soundcloud.com/jazzmikan" target="_blank" class="listen-link">SoundCloud</a>
+    <a href="https://www.youtube.com/user/jazzmikan" target="_blank" class="listen-link">YouTube</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="contact" id="contact">
+  <h2>The music is waiting.</h2>
+  <a href="https://www.mikan.pro/contact" class="contact-btn">Bookings</a>
+</section>
+
+<footer>
+  <span>© Mikan Zlatkovich</span>
+  <span>San Diego, CA</span>
+  <div class="social-row">
+    <a href="https://www.instagram.com/jazzmikan/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/jazzmikan" target="_blank">Facebook</a>
+    <a href="https://www.youtube.com/user/jazzmikan" target="_blank">YouTube</a>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in-view');
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll(
+    '.about p, .divider, .quote-block, .listen-links, .contact h2, .contact-btn'
+  ).forEach(el => io.observe(el));
+
+  // Gallery: each image arrives slowly
+  const galleryIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        galleryIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.gallery-img').forEach((img, i) => {
+    img.style.transitionDelay = `${(i % 3) * 0.35}s`;
+    galleryIO.observe(img);
+  });
+
+  document.querySelectorAll('.quote-block').forEach((q, i) => {
+    q.style.transitionDelay = `${i * 0.3}s`;
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
